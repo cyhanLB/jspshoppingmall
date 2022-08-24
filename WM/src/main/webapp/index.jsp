@@ -5,19 +5,27 @@
 <html>
 <head>
 
-<!--          meta 선언          -->
-<meta charset="utf-8">
-
-
-
-<!--          link 선언          -->
-<link rel="stylesheet" href="../css/index.css">
-
-
-
-<!--          script 선언          -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <script>
+/*
+	$(document).ready(function(){
+		
+		$("#btn_login").click(function(){
+
+			if($("#userid").val() =='') {
+				alert("아이디를 입력하세요");
+				return false;
+			}
+			if($("#password").val() =='') {
+				alert("패스워드를 입력하세요");
+				return false;
+			}
+			$("#loginForm").attr("action","loginCheck.jsp").submit();
+		});
+		
+	});
+*/
 
 function loginCheck(){
 	if(document.loginForm.u_id.vale == ''){
@@ -41,7 +49,7 @@ function press(){
 
 </script>
 
-
+<meta charset="utf-8">
 <title>로그인</title>
 
 

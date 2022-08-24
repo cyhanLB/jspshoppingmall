@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"  pageEncoding="utf-8"%>
+<%@page import="java.sql.*"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>사용자 정보 등록</title>
+<title>회원 수정</title>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
@@ -16,7 +17,7 @@
 	
 		$("#btn_register").click(function(){
 			
-			if($("#u_id").val() == '') { alert("아이디를 입력하세요."); $("#u_id").focus();  return false; }
+		
 			if($("#u_name").val() == '') { alert("이름을 입력하세요."); $("#u_name").focus(); return false; }
 			var Pass = $("#u_pw").val();
 			var Pass1 = $("#u_pw1").val();
@@ -45,31 +46,11 @@
 		 	var afterTelno = beforeTelno.replace(/\-/gi,"").replace(/\ /gi,"").trim();
 		 	//console.log("afterTelno : " + afterTelno);
 		 	$("#u_phone").val(afterTelno);
+		 	
 			
 			$("#registerForm").attr("action","memberRegistry.jsp").submit();	
-
-			$("#u_id").change(function(){
-				
-				$.ajax({
-					url: "idCheck.jsp",
-					type: "post", 
-					datatype: "json",
-					data: {"u_id": $("#u_id").val()},
-					success: function(data){
-						var jsonInfo = data;
-						console.log("jsonInfo = " + jsonInfo)
-						if(jsonInfo.id_count == 1 ){
-							$("#checkID").html("동일한 아이디가 존재합니다. 새로운 아이디를 입력하세요.");
-							$("#u_id").val("").focus();
-						}else $("#checkID").html("사용 가능한 아이디입니다.");
-					}
-				});
-
-			});
 		});
 	});
-	
-	
 	
 
 function findAddr(){
@@ -102,19 +83,67 @@ function findAddr(){
   
 </head>
 <body>
+<%
+
+	String url = "jdbc:mariadb://10.10.14.30:3306/webdev";
+	String uid = "shopManager";
+	String pwd = "1234";
+	String query = "select u_id, u_name from user"; 
+	
+	Connection con = null;
+  	Statement stmt = null;
+  	ResultSet rs = null;
+  
+  	String u_id = (String)session.getAttribute("u_id");
+  	String u_name = (String)session.getAttribute("u_name");
+
+	
+	try{
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		con = DriverManager.getConnection(url, uid, pwd);
+
+	
+		stmt = con.createStatement();
+		rs = stmt.executeQuery(query);
+		
+		while(rs.next()){ 
+			
+			u_id = rs.getString("u_id");
+			u_name = rs.getString("u_name");
+			
+		}
+		
+	}catch(Exception e)	 {
+		e.printStackTrace();
+	}
+	
+	stmt.close();
+	rs.close();
+	con.close();
+	
+
+
+
+	
+
+
+%>
+
+
 <br><br><br>
 
 <div class="main" align="center">
-  <div class="registerForm">
+  <div class="memberForm">
 	      
-    <h1>사용자 등록</h1>
-    <form name="registerForm" id="registerForm" method="post"> 
+    <h1>회원 정보</h1>
+    <form name="memberForm" id="memberForm" method="post"> 
         <h3>아이디</h3>
-        <input type="text" id="u_id" name="u_id" class="u_id" placeholder="아이디를 입력하세요." onchange="idCheck()">
+        <input type="text" id="u_id" value="<%=u_id %>" readonly>
         <p id="checkID" style="color:red;text-align:center;"></p>
         <h3>이름</h3>
-		<input type="text" id="u_name" name="u_name" class="u_name" placeholder="이름을 입력하세요.">
-        <h3>비밀번호</h3>
+		<input type="text" id="u_name" value="<%=u_name %>" readonly>
+        <h3>새 비밀번호</h3>
         <input type="password" id="u_pw" name="u_pw" class="u_pw" placeholder="암호를 입력하세요.">
         <p style="color:red;text-align:center;">※ 8~20이내의 영문자, 숫자, 특수문자 조합으로 암호를 만들어 주세요.</p>
         <h3>비밀번호 확인</h3>
@@ -127,11 +156,13 @@ function findAddr(){
         <input type="text" id="u_address" name="u_address" class="input" placeholder="주소" readonly>
         <input type="text" id="u_address1" name="u_address1"class="input" placeholder="상세 주소">
         <h3>전화번호</h3>
-        <input type="text" id="u_phone" name="u_phone" class="u_phone" placeholder="전화번호를 입력하세요.">
+        <input type="text" id="u_phone" name="u_phone" class="u_phone" placeholder="전화번호를 입력하세요."><br>
       
-      
-        <input type="button" id="btn_register" class="btn_register" value="사용자 등록">
+      	<br>
+        <input type="button" id="btn_register" class="btn_register" value="회원 수정">
         <input type="button" id="btn_cancel" class="btn_cancel" value="취소" onclick="history.back()">
+        <input type="button" id="btn_register" class="btn_register" value="회원탈퇴">
+        
 	  </form>
 
   </div>

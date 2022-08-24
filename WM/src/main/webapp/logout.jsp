@@ -17,7 +17,7 @@
 %>
 
 <h1><%=u_id %>님 안녕히 가세요</h1>
-<h1>다시 <a href="index.jsp">로그인</a></h1>
+<h1>다시 <a href="login.jsp">로그인</a></h1>
 
 </body>
 </html>
