@@ -6,10 +6,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>사용자 정보 등록</title>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-
-
 <script>
 
 	$(document).ready(function(){
@@ -45,31 +41,11 @@
 		 	var afterTelno = beforeTelno.replace(/\-/gi,"").replace(/\ /gi,"").trim();
 		 	//console.log("afterTelno : " + afterTelno);
 		 	$("#u_phone").val(afterTelno);
+		 	
 			
 			$("#registerForm").attr("action","memberRegistry.jsp").submit();	
-
-			$("#u_id").change(function(){
-				
-				$.ajax({
-					url: "idCheck.jsp",
-					type: "post", 
-					datatype: "json",
-					data: {"u_id": $("#u_id").val()},
-					success: function(data){
-						var jsonInfo = data;
-						console.log("jsonInfo = " + jsonInfo)
-						if(jsonInfo.id_count == 1 ){
-							$("#checkID").html("동일한 아이디가 존재합니다. 새로운 아이디를 입력하세요.");
-							$("#u_id").val("").focus();
-						}else $("#checkID").html("사용 가능한 아이디입니다.");
-					}
-				});
-
-			});
 		});
 	});
-	
-	
 	
 
 function findAddr(){
@@ -110,7 +86,7 @@ function findAddr(){
     <h1>사용자 등록</h1>
     <form name="registerForm" id="registerForm" method="post"> 
         <h3>아이디</h3>
-        <input type="text" id="u_id" name="u_id" class="u_id" placeholder="아이디를 입력하세요." onchange="idCheck()">
+        <input type="text" id="u_id" name="u_id" class="u_id" placeholder="아이디를 입력하세요.">
         <p id="checkID" style="color:red;text-align:center;"></p>
         <h3>이름</h3>
 		<input type="text" id="u_name" name="u_name" class="u_name" placeholder="이름을 입력하세요.">
