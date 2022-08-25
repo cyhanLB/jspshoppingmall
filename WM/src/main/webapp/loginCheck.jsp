@@ -25,8 +25,8 @@
 	String u_pw = request.getParameter("u_pw");
 	
 	//DB에서 사용자 정보(아이디랑 패스워드 가져 오기)
-	String url = "jdbc:mariadb://127.0.0.1:3306/shop_db";
-	String user = "root";
+	String url = "jdbc:mariadb://10.10.14.30:3306/webdev";
+	String user = "shopManager";
 	String pwd = "1234";
 
 	Connection con = null;

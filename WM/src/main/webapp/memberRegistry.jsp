@@ -26,9 +26,10 @@
 	String u_phone = request.getParameter("u_phone");
 	
 	
-	String url = "jdbc:mariadb://127.0.0.1:3306/shop_db";
-	String user = "root";
+	String url = "jdbc:mariadb://10.10.14.30:3306/webdev";
+	String user = "shopManager";
 	String pwd = "1234";
+
 
 	Connection con = null;
 	Statement stmt = null;
@@ -59,7 +60,7 @@
 		stmt.close();
 		con.close();
 		
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("login.jsp");
 
 	}catch(Exception e){
 		e.printStackTrace();
